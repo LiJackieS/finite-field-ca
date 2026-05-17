@@ -23,8 +23,8 @@ namespace ffca {
         }
 
         void step() {
-            for (std::size_t row = 0; row < current_.height(); row++) {
-                for (std::size_t col = 0; col < current_.width(); col++) {
+            for (std::size_t row = 0; row < current_.height(); ++row) {
+                for (std::size_t col = 0; col < current_.width(); ++col) {
                     int r = static_cast<int>(row);
                     int c = static_cast<int>(col);
 
