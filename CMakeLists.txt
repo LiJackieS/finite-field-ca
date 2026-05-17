@@ -22,3 +22,11 @@ target_include_directories(test_grid
     PRIVATE
         include
 )
+add_executable(test_rules
+    tests/test_rules.cpp
+)
+
+target_include_directories(test_rules
+    PRIVATE
+        include
+)

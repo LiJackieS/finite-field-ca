@@ -65,11 +65,13 @@ CMAKE_BINARY_DIR = /Users/jackie/finite-field-ca/build
 # The main recursive "all" target.
 all: CMakeFiles/test_field.dir/all
 all: CMakeFiles/test_grid.dir/all
+all: CMakeFiles/test_rules.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
 codegen: CMakeFiles/test_field.dir/codegen
 codegen: CMakeFiles/test_grid.dir/codegen
+codegen: CMakeFiles/test_rules.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -79,6 +81,7 @@ preinstall:
 # The main recursive "clean" target.
 clean: CMakeFiles/test_field.dir/clean
 clean: CMakeFiles/test_grid.dir/clean
+clean: CMakeFiles/test_rules.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -144,6 +147,38 @@ CMakeFiles/test_grid.dir/codegen:
 CMakeFiles/test_grid.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_grid.dir/build.make CMakeFiles/test_grid.dir/clean
 .PHONY : CMakeFiles/test_grid.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_rules.dir
+
+# All Build rule for target.
+CMakeFiles/test_rules.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rules.dir/build.make CMakeFiles/test_rules.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rules.dir/build.make CMakeFiles/test_rules.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/jackie/finite-field-ca/build/CMakeFiles --progress-num=5,6 "Built target test_rules"
+.PHONY : CMakeFiles/test_rules.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_rules.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/jackie/finite-field-ca/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_rules.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/jackie/finite-field-ca/build/CMakeFiles 0
+.PHONY : CMakeFiles/test_rules.dir/rule
+
+# Convenience name for target.
+test_rules: CMakeFiles/test_rules.dir/rule
+.PHONY : test_rules
+
+# codegen rule for target.
+CMakeFiles/test_rules.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rules.dir/build.make CMakeFiles/test_rules.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/jackie/finite-field-ca/build/CMakeFiles --progress-num=5,6 "Finished codegen for target test_rules"
+.PHONY : CMakeFiles/test_rules.dir/codegen
+
+# clean rule for target.
+CMakeFiles/test_rules.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rules.dir/build.make CMakeFiles/test_rules.dir/clean
+.PHONY : CMakeFiles/test_rules.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
