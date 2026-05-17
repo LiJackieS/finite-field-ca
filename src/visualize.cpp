@@ -9,7 +9,7 @@
 #include "ffca/Engine.hpp"
 #include "ffca/Field.hpp"
 #include "ffca/Grid2D.hpp"
-#include "ffca/Rules.hpp"
+#include "ffca/RuntimeRules.hpp"
 #include "ffca/Utils.hpp"
 
 namespace {
@@ -54,7 +54,7 @@ const char* mode_name(InitMode mode) {
 
 int main() {
     using F5 = ffca::Fp<5>;
-    using Rule = ffca::QuadraticVonNeumannRule<F5>;
+    using Rule = ffca::RuntimeRule<F5>;
     using Engine = ffca::Engine2D<F5, Rule>;
 
     constexpr std::size_t grid_width = 160;
@@ -109,12 +109,21 @@ int main() {
         return grid;
     };
 
-    auto make_engine = [&](InitMode mode) {
-        return Engine{make_grid(mode)};
+    auto make_engine = [&](InitMode mode, ffca::RuleKind rule_kind) {
+        Rule rule{
+            .kind = rule_kind
+        };
+
+        return Engine{
+            make_grid(mode),
+            rule
+        };
     };
 
     InitMode mode = InitMode::Random;
-    auto engine = make_engine(mode);
+    ffca::RuleKind rule_kind = ffca::RuleKind::Quadratic;
+
+    auto engine = make_engine(mode, rule_kind);
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL_Init failed: " << SDL_GetError() << '\n';
@@ -162,9 +171,14 @@ int main() {
     std::cout << "  2           center cell initialization\n";
     std::cout << "  3           horizontal line initialization\n";
     std::cout << "  4           square initialization\n";
-    std::cout << "  R           reset current initialization\n";
+    std::cout << "  Q           quadratic rule\n";
+    std::cout << "  L           linear rule\n";
+    std::cout << "  N           neighbor-sum rule\n";
+    std::cout << "  M           multiplicative rule\n";
+    std::cout << "  R           reset current initialization/rule\n";
     std::cout << "  Esc         quit\n";
-    std::cout << "Current mode: " << mode_name(mode) << '\n';
+    std::cout << "Current init mode: " << mode_name(mode) << '\n';
+    std::cout << "Current rule: " << ffca::rule_name(rule_kind) << '\n';
 
     while (running) {
         while (SDL_PollEvent(&event) != 0) {
@@ -189,31 +203,56 @@ int main() {
 
                     case SDLK_1:
                         mode = InitMode::Random;
-                        engine = make_engine(mode);
-                        std::cout << "Current mode: " << mode_name(mode) << '\n';
+                        engine = make_engine(mode, rule_kind);
+                        std::cout << "Current init mode: " << mode_name(mode) << '\n';
                         break;
 
                     case SDLK_2:
                         mode = InitMode::CenterCell;
-                        engine = make_engine(mode);
-                        std::cout << "Current mode: " << mode_name(mode) << '\n';
+                        engine = make_engine(mode, rule_kind);
+                        std::cout << "Current init mode: " << mode_name(mode) << '\n';
                         break;
 
                     case SDLK_3:
                         mode = InitMode::HorizontalLine;
-                        engine = make_engine(mode);
-                        std::cout << "Current mode: " << mode_name(mode) << '\n';
+                        engine = make_engine(mode, rule_kind);
+                        std::cout << "Current init mode: " << mode_name(mode) << '\n';
                         break;
 
                     case SDLK_4:
                         mode = InitMode::Square;
-                        engine = make_engine(mode);
-                        std::cout << "Current mode: " << mode_name(mode) << '\n';
+                        engine = make_engine(mode, rule_kind);
+                        std::cout << "Current init mode: " << mode_name(mode) << '\n';
+                        break;
+
+                    case SDLK_q:
+                        rule_kind = ffca::RuleKind::Quadratic;
+                        engine = make_engine(mode, rule_kind);
+                        std::cout << "Current rule: " << ffca::rule_name(rule_kind) << '\n';
+                        break;
+
+                    case SDLK_l:
+                        rule_kind = ffca::RuleKind::Linear;
+                        engine = make_engine(mode, rule_kind);
+                        std::cout << "Current rule: " << ffca::rule_name(rule_kind) << '\n';
+                        break;
+
+                    case SDLK_n:
+                        rule_kind = ffca::RuleKind::NeighborSum;
+                        engine = make_engine(mode, rule_kind);
+                        std::cout << "Current rule: " << ffca::rule_name(rule_kind) << '\n';
+                        break;
+
+                    case SDLK_m:
+                        rule_kind = ffca::RuleKind::Multiplicative;
+                        engine = make_engine(mode, rule_kind);
+                        std::cout << "Current rule: " << ffca::rule_name(rule_kind) << '\n';
                         break;
 
                     case SDLK_r:
-                        engine = make_engine(mode);
-                        std::cout << "Reset mode: " << mode_name(mode) << '\n';
+                        engine = make_engine(mode, rule_kind);
+                        std::cout << "Reset: " << mode_name(mode)
+                                  << " | " << ffca::rule_name(rule_kind) << '\n';
                         break;
 
                     default:
