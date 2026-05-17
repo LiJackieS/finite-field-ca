@@ -48,3 +48,19 @@ target_include_directories(ffca_demo
     PRIVATE
         include
 )
+
+find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2)
+
+add_executable(ffca_visualizer
+    src/visualize.cpp
+)
+
+target_include_directories(ffca_visualizer
+    PRIVATE
+        include
+)
+
+target_link_libraries(ffca_visualizer
+    PRIVATE
+        SDL2::SDL2
+)
