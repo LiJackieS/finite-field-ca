@@ -1,0 +1,9 @@
+/Users/jackie/finite-field-ca/build-release/CMakeFiles/test_field.dir
+/Users/jackie/finite-field-ca/build-release/CMakeFiles/test_grid.dir
+/Users/jackie/finite-field-ca/build-release/CMakeFiles/test_rules.dir
+/Users/jackie/finite-field-ca/build-release/CMakeFiles/test_engine.dir
+/Users/jackie/finite-field-ca/build-release/CMakeFiles/ffca_demo.dir
+/Users/jackie/finite-field-ca/build-release/CMakeFiles/ffca_visualizer.dir
+/Users/jackie/finite-field-ca/build-release/CMakeFiles/bench_step.dir
+/Users/jackie/finite-field-ca/build-release/CMakeFiles/edit_cache.dir
+/Users/jackie/finite-field-ca/build-release/CMakeFiles/rebuild_cache.dir

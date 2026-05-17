@@ -64,3 +64,12 @@ target_link_libraries(ffca_visualizer
     PRIVATE
         SDL2::SDL2
 )
+
+add_executable(bench_step
+    benchmarks/bench_step.cpp
+)
+
+target_include_directories(bench_step
+    PRIVATE
+        include
+)
