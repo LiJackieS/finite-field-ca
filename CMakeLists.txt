@@ -39,3 +39,12 @@ target_include_directories(test_engine
     PRIVATE
         include
 )
+
+add_executable(ffca_demo
+    src/main.cpp
+)
+
+target_include_directories(ffca_demo
+    PRIVATE
+        include
+)

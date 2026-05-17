@@ -168,6 +168,43 @@ test_engine/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_engine.dir/build.make CMakeFiles/test_engine.dir/build
 .PHONY : test_engine/fast
 
+#=============================================================================
+# Target rules for targets named ffca_demo
+
+# Build rule for target.
+ffca_demo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ffca_demo
+.PHONY : ffca_demo
+
+# fast build rule for target.
+ffca_demo/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ffca_demo.dir/build.make CMakeFiles/ffca_demo.dir/build
+.PHONY : ffca_demo/fast
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ffca_demo.dir/build.make CMakeFiles/ffca_demo.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ffca_demo.dir/build.make CMakeFiles/ffca_demo.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ffca_demo.dir/build.make CMakeFiles/ffca_demo.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
 tests/test_engine.o: tests/test_engine.cpp.o
 .PHONY : tests/test_engine.o
 
@@ -272,10 +309,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... ffca_demo"
 	@echo "... test_engine"
 	@echo "... test_field"
 	@echo "... test_grid"
 	@echo "... test_rules"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 	@echo "... tests/test_engine.o"
 	@echo "... tests/test_engine.i"
 	@echo "... tests/test_engine.s"
