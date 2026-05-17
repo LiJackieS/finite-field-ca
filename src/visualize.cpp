@@ -28,10 +28,34 @@ constexpr std::array<Color, 5> colors = {{
     {220, 80, 100}    // 4
 }};
 
+enum class InitMode {
+    Random,
+    CenterCell,
+    HorizontalLine,
+    Square
+};
+
+const char* mode_name(InitMode mode) {
+    switch (mode) {
+        case InitMode::Random:
+            return "Random";
+        case InitMode::CenterCell:
+            return "Center cell";
+        case InitMode::HorizontalLine:
+            return "Horizontal line";
+        case InitMode::Square:
+            return "Square";
+    }
+
+    return "Unknown";
+}
+
 } // namespace
 
 int main() {
     using F5 = ffca::Fp<5>;
+    using Rule = ffca::QuadraticVonNeumannRule<F5>;
+    using Engine = ffca::Engine2D<F5, Rule>;
 
     constexpr std::size_t grid_width = 160;
     constexpr std::size_t grid_height = 120;
@@ -41,19 +65,56 @@ int main() {
     constexpr int window_width = static_cast<int>(grid_width) * cell_size;
     constexpr int window_height = static_cast<int>(grid_height) * cell_size;
 
-    auto make_engine = [] {
+    auto make_grid = [](InitMode mode) {
         ffca::Grid2D<F5> grid{grid_width, grid_height};
 
-        // Random initialization
-        ffca::randomize_grid(grid, seed);
+        switch (mode) {
+            case InitMode::Random: {
+                ffca::randomize_grid(grid, seed);
+                break;
+            }
 
-        // Rule: x' = x^2 + N + S + E + W mod 5
-        return ffca::Engine2D<F5, ffca::QuadraticVonNeumannRule<F5>>{
-            std::move(grid)
-        };
+            case InitMode::CenterCell: {
+                grid(grid_height / 2, grid_width / 2) = F5{1};
+                break;
+            }
+
+            case InitMode::HorizontalLine: {
+                for (std::size_t col = 0; col < grid_width; ++col) {
+                    grid(grid_height / 2, col) = F5{1};
+                }
+                break;
+            }
+
+            case InitMode::Square: {
+                constexpr std::size_t half_size = 3;
+
+                const std::size_t center_row = grid_height / 2;
+                const std::size_t center_col = grid_width / 2;
+
+                for (std::size_t row = center_row - half_size;
+                     row <= center_row + half_size;
+                     ++row) {
+                    for (std::size_t col = center_col - half_size;
+                         col <= center_col + half_size;
+                         ++col) {
+                        grid(row, col) = F5{1};
+                    }
+                }
+
+                break;
+            }
+        }
+
+        return grid;
     };
 
-    auto engine = make_engine();
+    auto make_engine = [&](InitMode mode) {
+        return Engine{make_grid(mode)};
+    };
+
+    InitMode mode = InitMode::Random;
+    auto engine = make_engine(mode);
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL_Init failed: " << SDL_GetError() << '\n';
@@ -97,8 +158,13 @@ int main() {
     std::cout << "Controls:\n";
     std::cout << "  Space       toggle automatic/manual mode\n";
     std::cout << "  Right arrow step once in manual mode\n";
-    std::cout << "  R           reset grid\n";
+    std::cout << "  1           random initialization\n";
+    std::cout << "  2           center cell initialization\n";
+    std::cout << "  3           horizontal line initialization\n";
+    std::cout << "  4           square initialization\n";
+    std::cout << "  R           reset current initialization\n";
     std::cout << "  Esc         quit\n";
+    std::cout << "Current mode: " << mode_name(mode) << '\n';
 
     while (running) {
         while (SDL_PollEvent(&event) != 0) {
@@ -121,9 +187,33 @@ int main() {
                         step_once = true;
                         break;
 
+                    case SDLK_1:
+                        mode = InitMode::Random;
+                        engine = make_engine(mode);
+                        std::cout << "Current mode: " << mode_name(mode) << '\n';
+                        break;
+
+                    case SDLK_2:
+                        mode = InitMode::CenterCell;
+                        engine = make_engine(mode);
+                        std::cout << "Current mode: " << mode_name(mode) << '\n';
+                        break;
+
+                    case SDLK_3:
+                        mode = InitMode::HorizontalLine;
+                        engine = make_engine(mode);
+                        std::cout << "Current mode: " << mode_name(mode) << '\n';
+                        break;
+
+                    case SDLK_4:
+                        mode = InitMode::Square;
+                        engine = make_engine(mode);
+                        std::cout << "Current mode: " << mode_name(mode) << '\n';
+                        break;
+
                     case SDLK_r:
-                        engine = make_engine();
-                        std::cout << "Reset grid\n";
+                        engine = make_engine(mode);
+                        std::cout << "Reset mode: " << mode_name(mode) << '\n';
                         break;
 
                     default:
@@ -162,7 +252,6 @@ int main() {
 
         SDL_RenderPresent(renderer);
 
-        // Controls speed in automatic mode and avoids maxing CPU in manual mode.
         SDL_Delay(30);
     }
 
