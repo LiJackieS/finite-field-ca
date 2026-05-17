@@ -8,10 +8,12 @@
 #include "ffca/Field.hpp"
 #include "ffca/Grid2D.hpp"
 #include "ffca/RuntimeRules.hpp"
+#include "ffca/Rules.hpp"
 #include "ffca/Utils.hpp"
 
 template <typename Engine>
 void run_benchmark(
+    const char* label,
     Engine& engine,
     std::size_t width,
     std::size_t height,
@@ -44,7 +46,8 @@ void run_benchmark(
     const double steps_per_second =
         static_cast<double>(measured_steps) / elapsed_seconds;
 
-    std::cout << width << "x" << height
+    std::cout << label
+              << " | " << width << "x" << height
               << " | steps: " << measured_steps
               << " | total time: " << elapsed_ns / 1'000'000.0 << " ms"
               << " | ns/cell: " << ns_per_cell
@@ -54,22 +57,63 @@ void run_benchmark(
 
 int main() {
     using F5 = ffca::Fp<5>;
-    using Rule = ffca::RuntimeRule<F5>;
-    using Engine = ffca::Engine2D<F5, Rule>;
+
+    using RuntimeRule = ffca::RuntimeRule<F5>;
+    using RuntimeEngine = ffca::Engine2D<F5, RuntimeRule>;
+
+    using StaticRule = ffca::QuadraticVonNeumannRule<F5>;
+    using StaticEngine = ffca::Engine2D<F5, StaticRule>;
 
     constexpr std::uint32_t seed = 42;
     constexpr std::size_t warmup_steps = 100;
     constexpr std::size_t measured_steps = 1000;
 
     for (std::size_t size : {128, 256, 512, 1024}) {
-        ffca::Grid2D<F5> grid{size, size};
-        ffca::randomize_grid(grid, seed);
+        {
+            ffca::Grid2D<F5> grid{size, size};
+            ffca::randomize_grid(grid, seed);
 
-        Rule rule{.kind = ffca::RuleKind::Quadratic};
+            RuntimeRule rule{
+                .kind = ffca::RuleKind::Quadratic
+            };
 
-        Engine engine{std::move(grid), rule};
+            RuntimeEngine engine{
+                std::move(grid),
+                rule
+            };
 
-        run_benchmark(engine, size, size, warmup_steps, measured_steps);
+            run_benchmark(
+                "runtime rule",
+                engine,
+                size,
+                size,
+                warmup_steps,
+                measured_steps
+            );
+        }
+
+        {
+            ffca::Grid2D<F5> grid{size, size};
+            ffca::randomize_grid(grid, seed);
+
+            StaticRule rule{};
+
+            StaticEngine engine{
+                std::move(grid),
+                rule
+            };
+
+            run_benchmark(
+                "static rule ",
+                engine,
+                size,
+                size,
+                warmup_steps,
+                measured_steps
+            );
+        }
+
+        std::cout << '\n';
     }
 
     return 0;
