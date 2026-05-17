@@ -14,3 +14,11 @@ target_include_directories(test_field
     PRIVATE
         include
 )
+add_executable(test_grid
+    tests/test_grid.cpp
+)
+
+target_include_directories(test_grid
+    PRIVATE
+        include
+)

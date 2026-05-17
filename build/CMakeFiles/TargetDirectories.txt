@@ -1,3 +1,4 @@
 /Users/jackie/finite-field-ca/build/CMakeFiles/test_field.dir
+/Users/jackie/finite-field-ca/build/CMakeFiles/test_grid.dir
 /Users/jackie/finite-field-ca/build/CMakeFiles/edit_cache.dir
 /Users/jackie/finite-field-ca/build/CMakeFiles/rebuild_cache.dir

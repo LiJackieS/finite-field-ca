@@ -129,6 +129,19 @@ test_field/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_field.dir/build.make CMakeFiles/test_field.dir/build
 .PHONY : test_field/fast
 
+#=============================================================================
+# Target rules for targets named test_grid
+
+# Build rule for target.
+test_grid: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_grid
+.PHONY : test_grid
+
+# fast build rule for target.
+test_grid/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_grid.dir/build.make CMakeFiles/test_grid.dir/build
+.PHONY : test_grid/fast
+
 tests/test_field.o: tests/test_field.cpp.o
 .PHONY : tests/test_field.o
 
@@ -153,6 +166,30 @@ tests/test_field.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_field.dir/build.make CMakeFiles/test_field.dir/tests/test_field.cpp.s
 .PHONY : tests/test_field.cpp.s
 
+tests/test_grid.o: tests/test_grid.cpp.o
+.PHONY : tests/test_grid.o
+
+# target to build an object file
+tests/test_grid.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_grid.dir/build.make CMakeFiles/test_grid.dir/tests/test_grid.cpp.o
+.PHONY : tests/test_grid.cpp.o
+
+tests/test_grid.i: tests/test_grid.cpp.i
+.PHONY : tests/test_grid.i
+
+# target to preprocess a source file
+tests/test_grid.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_grid.dir/build.make CMakeFiles/test_grid.dir/tests/test_grid.cpp.i
+.PHONY : tests/test_grid.cpp.i
+
+tests/test_grid.s: tests/test_grid.cpp.s
+.PHONY : tests/test_grid.s
+
+# target to generate assembly for a file
+tests/test_grid.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_grid.dir/build.make CMakeFiles/test_grid.dir/tests/test_grid.cpp.s
+.PHONY : tests/test_grid.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,9 +199,13 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test_field"
+	@echo "... test_grid"
 	@echo "... tests/test_field.o"
 	@echo "... tests/test_field.i"
 	@echo "... tests/test_field.s"
+	@echo "... tests/test_grid.o"
+	@echo "... tests/test_grid.i"
+	@echo "... tests/test_grid.s"
 .PHONY : help
 
 
