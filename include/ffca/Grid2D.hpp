@@ -35,6 +35,13 @@ namespace ffca {
             return cells_[index(row, col)];
         }
 
+        T& unchecked(std::size_t row, std::size_t col) noexcept{
+            return cells_[row * width_ + col];
+        }
+
+        const T& unchecked(std::size_t row, std::size_t col) const noexcept {
+            return cells_[row * width_ + col];
+        }
         T& wrapped(int row, int col) {
             return cells_[wrapped_index(row, col)];
         }
