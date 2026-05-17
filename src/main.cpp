@@ -10,16 +10,12 @@
 int main() {
     using F5 = ffca::Fp<5>;
 
-    constexpr std::size_t width = 8;
-    constexpr std::size_t height = 8;
+    constexpr std::size_t width = 16;
+    constexpr std::size_t height = 16;
 
     ffca::Grid2D<F5> grid{width, height};
 
-    for (std::size_t row = 0; row < height; ++row) {
-        for (std::size_t col = 0; col < width; ++col) {
-            grid(row, col) = F5{row + col};
-        }
-    }
+    ffca::randomize_grid(grid, 42);
 
     ffca::Engine2D<F5, ffca::QuadraticVonNeumannRule<F5>> engine{
         std::move(grid)
@@ -28,7 +24,7 @@ int main() {
     std::cout << "Initial grid:\n";
     ffca::print_grid(engine.current());
 
-    for (int step = 1; step <= 5; ++step) {
+    for (int step = 1; step <= 10; ++step) {
         engine.step();
 
         std::cout << "\nAfter step " << step << ":\n";
