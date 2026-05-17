@@ -30,3 +30,12 @@ target_include_directories(test_rules
     PRIVATE
         include
 )
+
+add_executable(test_engine
+    tests/test_engine.cpp
+)
+
+target_include_directories(test_engine
+    PRIVATE
+        include
+)

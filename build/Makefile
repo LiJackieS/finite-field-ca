@@ -155,6 +155,43 @@ test_rules/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_rules.dir/build.make CMakeFiles/test_rules.dir/build
 .PHONY : test_rules/fast
 
+#=============================================================================
+# Target rules for targets named test_engine
+
+# Build rule for target.
+test_engine: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_engine
+.PHONY : test_engine
+
+# fast build rule for target.
+test_engine/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_engine.dir/build.make CMakeFiles/test_engine.dir/build
+.PHONY : test_engine/fast
+
+tests/test_engine.o: tests/test_engine.cpp.o
+.PHONY : tests/test_engine.o
+
+# target to build an object file
+tests/test_engine.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_engine.dir/build.make CMakeFiles/test_engine.dir/tests/test_engine.cpp.o
+.PHONY : tests/test_engine.cpp.o
+
+tests/test_engine.i: tests/test_engine.cpp.i
+.PHONY : tests/test_engine.i
+
+# target to preprocess a source file
+tests/test_engine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_engine.dir/build.make CMakeFiles/test_engine.dir/tests/test_engine.cpp.i
+.PHONY : tests/test_engine.cpp.i
+
+tests/test_engine.s: tests/test_engine.cpp.s
+.PHONY : tests/test_engine.s
+
+# target to generate assembly for a file
+tests/test_engine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_engine.dir/build.make CMakeFiles/test_engine.dir/tests/test_engine.cpp.s
+.PHONY : tests/test_engine.cpp.s
+
 tests/test_field.o: tests/test_field.cpp.o
 .PHONY : tests/test_field.o
 
@@ -235,9 +272,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... test_engine"
 	@echo "... test_field"
 	@echo "... test_grid"
 	@echo "... test_rules"
+	@echo "... tests/test_engine.o"
+	@echo "... tests/test_engine.i"
+	@echo "... tests/test_engine.s"
 	@echo "... tests/test_field.o"
 	@echo "... tests/test_field.i"
 	@echo "... tests/test_field.s"
