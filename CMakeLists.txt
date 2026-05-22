@@ -82,3 +82,12 @@ target_include_directories(test_engine_parallel
     PRIVATE
         include
 )
+
+add_executable(bench_parallel
+    benchmarks/bench_parallel.cpp
+)
+
+target_include_directories(bench_parallel
+    PRIVATE
+        include
+)
